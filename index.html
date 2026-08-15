@@ -53,6 +53,19 @@
         .stat-item.zero .stat-value { color: #ff2222; font-weight: 900; }
         @keyframes pulse-zero { 0%, 100% { background: rgba(255,0,0,0.15); } 50% { background: rgba(255,0,0,0.35); } }
         
+        .spa-knight {
+            position: absolute;
+            bottom: 6px;
+            left: -70px;
+            animation: spa-walk 22s linear infinite;
+        }
+        @keyframes spa-walk {
+            from { left: -70px; }
+            to   { left: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .spa-knight { animation: none; left: 24px; }
+        }
         .grid-container {
             overflow: auto;
             background: rgba(0,0,0,0.2);
@@ -170,17 +183,17 @@
     <div class="container">
         <header>
             <h1>🎁 <span>SPA</span> Suivi des coffres</h1>
-            <p class="update-time">Mise à jour : 2026-08-15 08:19</p>
+            <p class="update-time">Mise à jour : 2026-08-15 08:41</p>
             <p class="update-time">🎯 Objectif : <strong>30 coffres</strong> + <strong>500 points</strong></p>
             <p class="update-time" style="color:#ff6b6b;font-size:0.8em;">🔄 Réinitialisation hebdomadaire chaque lundi à 13h00 (EDT/UTC-4)</p>
             
             <div class="stats-bar">
                 <div class="stat-item">
-                    <div class="stat-value">493</div>
+                    <div class="stat-value">507</div>
                     <div class="stat-label">Coffres</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">12390</div>
+                    <div class="stat-value">12810</div>
                     <div class="stat-label">Points</div>
                 </div>
                 <div class="stat-item">
@@ -192,11 +205,11 @@
                     <div class="stat-label">⛔ 0 coffre</div>
                 </div>
                 <div class="stat-item red">
-                    <div class="stat-value">20</div>
+                    <div class="stat-value">19</div>
                     <div class="stat-label">🔴 0-49%</div>
                 </div>
                 <div class="stat-item orange">
-                    <div class="stat-value">6</div>
+                    <div class="stat-value">7</div>
                     <div class="stat-label">🟠 50-99%</div>
                 </div>
                 <div class="stat-item green">
@@ -205,7 +218,44 @@
                 </div>
             </div>
         </header>
-        
+
+        <!-- [SPA v1.24] Bandeau chevalier.
+             La bande est une div (taille fixe en px) et le chevalier un SVG de
+             64x72 px: sa taille ne depend PAS de la largeur du dashboard.
+             Un SVG unique etire sur 2000 px aurait rendu le chevalier minuscule.
+             Le cycle de marche (jambes, plumet, bob) est en SMIL <animate>:
+             zero accolade, donc zero risque dans la f-string. Seule la traversee
+             horizontale utilise @keyframes (accolades doublees dans <style>). -->
+        <div style="position:relative; height:84px; overflow:hidden; background:#45577a; border:1px solid rgba(255,215,0,0.55); border-radius:9px; margin:14px 0 8px;">
+        <div style="position:absolute; left:16px; right:16px; bottom:12px; height:1px; background:rgba(255,215,0,0.3);"></div>
+        <svg class="spa-knight" viewBox="0 0 90 100" width="64" height="72" role="img" aria-label="Chevalier transportant un coffre">
+        <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -2.5;0 0;0 -2.5;0 0" dur="0.72s" repeatCount="indefinite"/>
+        <path fill="none" stroke="#8fa8cf" stroke-width="6" stroke-linecap="round" d="M40 66 L36 84 L30 92">
+        <animate attributeName="d" values="M40 66 L36 84 L30 92;M40 66 L46 82 L52 90;M40 66 L36 84 L30 92" dur="0.72s" repeatCount="indefinite"/>
+        </path>
+        <path fill="none" stroke="#d5e2f5" stroke-width="6" stroke-linecap="round" d="M46 66 L52 82 L58 90">
+        <animate attributeName="d" values="M46 66 L52 82 L58 90;M46 66 L40 84 L34 92;M46 66 L52 82 L58 90" dur="0.72s" repeatCount="indefinite"/>
+        </path>
+        <rect x="30" y="36" width="28" height="32" rx="7" fill="#a3bade" stroke="#2b3852" stroke-width="1.4"/>
+        <path d="M34 40 L54 40 L50 62 L38 62 Z" fill="#c0392b" stroke="#7a2419" stroke-width="1.2"/>
+        <path d="M44 44 L44 58 M38 51 L50 51" stroke="#ffd700" stroke-width="1.6" stroke-opacity="0.85"/>
+        <circle cx="44" cy="24" r="13" fill="#cfdcf0" stroke="#2b3852" stroke-width="1.4"/>
+        <path d="M31 24 A13 13 0 0 1 57 24 L57 20 A13 13 0 0 0 31 20 Z" fill="#a3bade" stroke="#2b3852" stroke-width="1.4"/>
+        <rect x="34" y="22" width="20" height="4" rx="2" fill="#1b2740"/>
+        <path fill="#c0392b" stroke="#7a2419" stroke-width="1.2" d="M44 11 C50 2 60 2 62 8 C58 8 54 12 52 16">
+        <animate attributeName="d" values="M44 11 C50 2 60 2 62 8 C58 8 54 12 52 16;M44 11 C50 4 61 5 63 11 C59 10 54 13 52 17;M44 11 C50 2 60 2 62 8 C58 8 54 12 52 16" dur="0.72s" repeatCount="indefinite"/>
+        </path>
+        <path d="M32 46 L22 56 M56 46 L66 56" stroke="#d5e2f5" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <rect x="18" y="52" width="52" height="30" rx="4" fill="#8b5a2b" stroke="#3a2410" stroke-width="1.6"/>
+        <path d="M18 62 A26 12 0 0 1 70 62 Z" fill="#a86b33" stroke="#3a2410" stroke-width="1.6"/>
+        <rect x="18" y="60" width="52" height="5" fill="#ffd700" stroke="#8a6d09" stroke-width="0.9"/>
+        <rect x="40" y="64" width="8" height="10" rx="1.5" fill="#ffd700" stroke="#8a6d09" stroke-width="0.9"/>
+        <circle cx="44" cy="69" r="1.6" fill="#3a2410"/>
+        </g>
+        </svg>
+        </div>
+
         <div class="grid-container">
             <table>
                 <thead>
@@ -231,10 +281,10 @@
                     
                     <tr class="status-orange">
                         <td class="player-name">Al le Gra</td>
-                        <td class="col-pts color-green">690</td>
-                        <td class="col-pct-seuil">77%</td>
-                        <td class="col-tot color-orange">23</td>
-                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">11</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">12</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
+                        <td class="col-pts color-green">720</td>
+                        <td class="col-pct-seuil">80%</td>
+                        <td class="col-tot color-orange">24</td>
+                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">12</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">12</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
                         <td class="col-power">41 666 886</td>
                         <td class="col-anc-power">41 201 886</td>
                         <td class="col-pct neutral">0%</td>
@@ -359,23 +409,23 @@
                         <td class="col-anc-power">-</td>
                         <td class="col-pct neutral">0%</td>
                     </tr>
-                    <tr class="status-red">
+                    <tr class="status-orange">
                         <td class="player-name">Kaam</td>
-                        <td class="col-pts color-orange">330</td>
-                        <td class="col-pct-seuil">37%</td>
-                        <td class="col-tot color-red">11</td>
-                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">11</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
+                        <td class="col-pts color-orange">450</td>
+                        <td class="col-pct-seuil">50%</td>
+                        <td class="col-tot color-orange">15</td>
+                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">11</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">4</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
                         <td class="col-power">48 206 683</td>
                         <td class="col-anc-power">48 204 683</td>
                         <td class="col-pct neutral">0%</td>
                     </tr>
                     <tr class="status-orange">
                         <td class="player-name">Kaam Junior</td>
-                        <td class="col-pts color-green">510</td>
-                        <td class="col-pct-seuil">60%</td>
-                        <td class="col-tot color-orange">18</td>
-                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">17</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">1</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
-                        <td class="col-power">39 781 283</td>
+                        <td class="col-pts color-green">630</td>
+                        <td class="col-pct-seuil">73%</td>
+                        <td class="col-tot color-orange">22</td>
+                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">17</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">4</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">1</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
+                        <td class="col-power">40 314 483</td>
                         <td class="col-anc-power">39 781 283</td>
                         <td class="col-pct neutral">0%</td>
                     </tr>
@@ -451,10 +501,10 @@
                     </tr>
                     <tr class="status-orange">
                         <td class="player-name">Pendragon</td>
-                        <td class="col-pts color-green">510</td>
-                        <td class="col-pct-seuil">57%</td>
-                        <td class="col-tot color-orange">17</td>
-                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">17</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
+                        <td class="col-pts color-green">570</td>
+                        <td class="col-pct-seuil">63%</td>
+                        <td class="col-tot color-orange">19</td>
+                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">17</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">2</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
                         <td class="col-power">191 705 485</td>
                         <td class="col-anc-power">191 703 485</td>
                         <td class="col-pct neutral">0%</td>
@@ -495,16 +545,16 @@
                         <td class="col-pct-seuil">49%</td>
                         <td class="col-tot color-green">30</td>
                         <td class="cell-val">1</td><td class="cell-val">1</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">3</td><td class="cell-high">13</td><td class="cell-high">6</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">1</td><td class="cell-val">1</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">2</td><td class="cell-val">1</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">1</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
-                        <td class="col-power">40 071 015</td>
+                        <td class="col-power">40 073 315</td>
                         <td class="col-anc-power">40 029 315</td>
                         <td class="col-pct positive">+0.1%</td>
                     </tr>
                     <tr class="status-orange">
                         <td class="player-name">Uther</td>
-                        <td class="col-pts color-orange">480</td>
-                        <td class="col-pct-seuil">53%</td>
-                        <td class="col-tot color-orange">16</td>
-                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">15</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">1</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
+                        <td class="col-pts color-green">570</td>
+                        <td class="col-pct-seuil">63%</td>
+                        <td class="col-tot color-orange">19</td>
+                        <td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-high">15</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-val">4</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td><td class="cell-zero">-</td>
                         <td class="col-power">124 227 120</td>
                         <td class="col-anc-power">124 204 960</td>
                         <td class="col-pct neutral">0%</td>
@@ -524,7 +574,7 @@
         </div>
         
         <footer>
-            TB Chest Tracker SPA v1.23 — Clan SPA — Total Battle<br>
+            TB Chest Tracker SPA v1.25 — Clan SPA — Total Battle<br>
             Par 3deckal & Claudorak 🦸‍♂️
         </footer>
     </div>
